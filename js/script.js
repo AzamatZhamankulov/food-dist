@@ -1,4 +1,5 @@
-'use strict';
+"use strict";
+//! Lesson #63 New tabs function to show and hide the content by clicking on item
 
 window.addEventListener('DOMContentLoaded', () => {
 
