@@ -2,9 +2,7 @@
 //! Lesson #63 New tabs function to show and hide the content by clicking on item
 
 window.addEventListener('DOMContentLoaded', () => {
-
     //todo it is tabs
-
     const tabs = document.querySelectorAll('.tabheader__item'),
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items');
@@ -48,7 +46,6 @@ window.addEventListener('DOMContentLoaded', () => {
             item.classList.add('hide');
             item.classList.remove('show', 'fade');
         });
-
         tabs.forEach(item => {
             item.classList.remove('tabheader__item_active');
         });
@@ -65,7 +62,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     tabsParent.addEventListener('click', (e) => {
         const target = e.target;
-
+        
         if (target && target.classList.contains('tabheader__item')) {
             tabs.forEach((item, i) => {
                 if (target == item) {
@@ -94,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
             hours = Math.floor((t / (1000 * 60 * 60) % 24)),
             minutes = Math.floor((t / 1000 / 60) % 60),
             seconds = Math.floor((t / 1000) % 60);
-        }
+        };
               
         return {
             'total' : t,
@@ -103,7 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
             'minutes': minutes,
             'seconds': seconds
         };
-    }
+    };
 
     function getZero(num) {
         if (num >= 0 && num < 10) {
@@ -120,7 +117,7 @@ window.addEventListener('DOMContentLoaded', () => {
               minutes = timer.querySelector('#minutes'),
               seconds = timer.querySelector('#seconds'),
               timeInterval = setInterval(updateClock, 1000);
-        
+            
         updateClock();
         
         function updateClock() {
@@ -135,8 +132,61 @@ window.addEventListener('DOMContentLoaded', () => {
                 clearInterval(timeInterval);
             }
         }
-    }
-
+    };
+    
     setClock('.timer', deadline);
+    
+    //todo lesson #70 Modal window
+    //! data-modal and data-close should be writen in html
+    
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalCloseBtn = document.querySelector('[data-close]');
+          
+    // to show the modal from all btns
+ 
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // modal.classList.add('show');
+            // modal.classList.remove('hide');
+            //todo we can use toggle as well
+            modal.classList.toggle('show'); 
+            // to fix the page on modal window
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // // to close the modal
+    // modalCloseBtn.addEventListener('click', () => {
+        // modal.classList.add('hide');
+        // modal.classList.remove('show');
+        //todo we can use toggle as well
+        // modal.classList.toggle('show');
+        // to release the page on modal window after fixed
+        // document.body.style.overflow = '';
+    // });
+    
+    //todo lets creat a function for closing modal window because it is repeating
+    function closeModal() {
+        modal.classList.toggle('show');
+        document.body.style.overflow = '';
+    };
+    
+    modalCloseBtn.addEventListener('click', closeModal);
+    
+    //todo if we want to close modal window by clicking any where
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    //todo if we want to bind btn esc to closing the modal window
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape" && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
 
 });
