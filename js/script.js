@@ -143,35 +143,27 @@ window.addEventListener('DOMContentLoaded', () => {
           modal = document.querySelector('.modal'),
           modalCloseBtn = document.querySelector('[data-close]');
           
-    // to show the modal from all btns
- 
-    modalTrigger.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // modal.classList.add('show');
-            // modal.classList.remove('hide');
-            //todo we can use toggle as well
-            modal.classList.toggle('show'); 
-            // to fix the page on modal window
-            document.body.style.overflow = 'hidden';
-        });
-    });
-    
-    // // to close the modal
-    // modalCloseBtn.addEventListener('click', () => {
-        // modal.classList.add('hide');
-        // modal.classList.remove('show');
-        //todo we can use toggle as well
-        // modal.classList.toggle('show');
-        // to release the page on modal window after fixed
-        // document.body.style.overflow = '';
-    // });
-    
+    //todo lest creat a fucntion for opening modal window
+    function openModal() {
+        modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+        //to stop showing modal again and again
+        clearInterval(modalTimerId);
+    };
+
     //todo lets creat a function for closing modal window because it is repeating
     function closeModal() {
         modal.classList.toggle('show');
         document.body.style.overflow = '';
     };
     
+    //Event to show the modal from all btns
+ 
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', openModal);
+    });
+    
+    //Event to close modal
     modalCloseBtn.addEventListener('click', closeModal);
     
     //todo if we want to close modal window by clicking any where
@@ -187,6 +179,24 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    
+    //! lesson #72 modification of modal window
+    //todo to set timeout modal window apear in proper time
+    const modalTimerId = setTimeout(openModal, 5000);
+
+    //todo if user scrolled page alldown we have to show modal window
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight -1) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
+
+
+
 
 
 });
