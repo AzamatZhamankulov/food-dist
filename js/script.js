@@ -75,7 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //todo lesson #68 timer for promotion 
 
-    const deadline = '2024-10-01';
+    const deadline = '2024-10-30';
 
     function getTimeRemaining(endtime) {
         let days, hours, minutes, seconds;
@@ -272,6 +272,49 @@ window.addEventListener('DOMContentLoaded', () => {
     ).render();
 
 
+    //! LEsson 83 Script to send data to the server
+
+    //todo send input data from Forms to the servar
+
+    const forms = document.querySelectorAll('form');
+
+    const message = {
+        loading: 'Loading! It is on process',
+        success: 'Thank you! We will back soon',
+        failure: 'Oops! Something went wrong'
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+
+            // request.setRequestHeader('Content-type', 'multipart/form-data'); // it is not neccessary
+            const formData = new FormData(form);
+
+            request.send(formData);
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+        });
+    }
 
 
 
